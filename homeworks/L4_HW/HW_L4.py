@@ -70,14 +70,10 @@ class Bus(Vehicle):
     def __init__(self, name, max_speed, total_capacity, used_capacity):
         super().__init__(name, max_speed, total_capacity)
         self.used_capacity = used_capacity
+        if self.used_capacity > self.total_capacity:
+            raise "Error! Еhe number is greater than the maximum."
 
-    def get_used_capacity(self, used_capacity):
-        if used_capacity > self.total_capacity:
-            print(f"Error! Used_capacity  should not be more than {self.total_capacity}")
-        else:
-            self.used_capacity = used_capacity
-
-    def fare(self, total_capacity):
+    def fare(self):
         return total_capacity * 100 * 1.1
 
 
@@ -110,19 +106,25 @@ class Bus(Vehicle):
 
 # 8_Create class Engine with attribute volume and method get_volume() that will return volume.
 # 9_Inherit Engine by Car class.
-class Engine(Car):
-    def __init__(self, name, max_speed, total_capacity, volume):
-        super().__init__(name, max_speed, total_capacity)
+class Engine:
+    def __init__(self, volume):
         self.volume = volume
 
     def get_volume(self):
         return self.volume
 
 
-# Process finished with exit code 0
+class Car(Engine):
+    def __init__(self, volume):
+        super().__init__(volume)
+
+    pass
+
+
+# ProcesEngines finished with exit code 0
 
 # 10_Check what is inheritance order of the Car class
 
-print(f"Engine is inherit of Car - {issubclass(Engine, Car)}")
+print(f"Car is inherited of Engine - {issubclass(Car, Engine)}")
 
-# Engine is inherit of Car - True
+# Car is inherited of Engine - True
