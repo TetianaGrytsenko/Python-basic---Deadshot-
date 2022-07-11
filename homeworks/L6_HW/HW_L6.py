@@ -1,9 +1,9 @@
+
 # 1_Make the class with composition: class Laptop, class Battery.
 
 class Laptop:
     def __init__(self):
-        battery = Battery('Capacity of this battery is huge')
-        self.battery = battery
+        self.battery = Battery('Capacity of this battery is huge')
 
 
 class Battery:
@@ -88,7 +88,7 @@ print(pasta_3.ingredients)  # ['forcemeat', 'tomatoes']
 # print(concert.visitors_count)  # 50
 
 class Concert:
-    MAX_VISITORS_NUM = 0
+    max_visitors_num = 0
 
     def __init__(self, visitors_num=0):
         self.visitors_num = visitors_num
@@ -167,8 +167,8 @@ class AddressBook:
                f'address=\'{self.address}\', email=\'{self.email}\', birthday= \'{self.birthday}\', age=\'{self.age}\')'
 
 
-AddressBook_1 = AddressBook(708, "Veronica", "9472558375860", "Kyiv", "ver@gmail.com", "7/08/95", 26)
-print(AddressBook_1)
+Address_book_1 = AddressBook(708, "Veronica", "9472558375860", "Kyiv", "ver@gmail.com", "7/08/95", 26)
+print(Address_book_1)
 
 
 # AddressBook(key='708', name='Veronica', phone_number='9472558375860', address='Kyiv',
@@ -218,3 +218,4 @@ class Celsius:
 
 water_temperature = Celsius(22)
 print(water_temperature.temperature)  # 71.6
+
