@@ -1,0 +1,98 @@
+# TASK 1
+# Створити логер який дозволяє працювати з файлами як звичайний open,
+# але разом з тим в файл logs.txt записує:
+# коли був відкритий файл, назва файла, коли закритий файл
+# для інформації про час можемо використати datetime.now()
+# приклад відпрацювання
+# with my_custom_manager('file.txt', 'r') as f:
+#     f.read()
+# В файл буде записано
+# 2022-07-11 22:17:59.782551 file.txt OPEN
+# 2022-07-11 22:18:00.782551 file.txt CLOSE
+
+import datetime as dt
+from _csv import writer
+import json
+
+
+class new_contex_manager:
+
+    def __init__(self, filename, mode):
+        self.filename = filename
+        self.mode = mode
+        self.file = open(filename, mode)
+        with open('HT.txt', 'a') as self.file_object:
+            self.file_object.write(f'{dt.datetime.now()} {self.filename} OPEN\n')
+
+    def __enter__(self):
+        return self.file
+
+    def __exit__(self, exc_type, exc_value, exc_traceback):
+        with open('HT.txt', 'a') as self.file_object:
+            self.file_object.write(f'{dt.datetime.now()} {self.filename} CLOSE\n')
+        self.file.close()
+
+
+with new_contex_manager('HT.txt', 'w') as file_object1:
+    file_object1.write('')
+
+# 2022-07-15 15:07:26.579561 HT.txt OPEN
+# 2022-07-15 15:07:26.579561 HT.txt CLOSE
+
+#  TASK 2
+# Написати ф-цію яка переводить файл logs.txt в logs.csv
+# Приклад такого файлу
+# 2022-07-11 22:17:59.782551, file.txt, OPEN
+# 2022-07-11 22:18:00.782551, file.txt, CLOSE
+
+
+def convert():
+    with open("HT.txt", "r") as ht_txt:
+        with open("HT.csv", "w") as ht_csv:
+            write = writer(ht_csv, delimiter=',')
+
+convert()
+with open("HT.csv", "r") as h:
+    print(h.read())
+
+#2022-07-15 16:18:26.957620 HT.txt OPEN
+#2022-07-15 16:18:26.957620 HT.txt CLOSE
+
+# TASK 3 (з зірочкою)
+# Написати ф-цію, яка обраховує з файла logs.csv скільки раз був відкритий файл і його остання дата відкриття.
+# Цю інформацію записати в logs.json. Приклад:
+# {
+#     "file.txt": {
+#         "count": 2,
+#         "last_time_opened": "2022-07-11 22:17:59.782551"
+#     }
+# }
+from _csv import reader
+from json import load, dump
+
+
+def count_json():
+    with open("logs.csv", "r") as file_csv:
+        read = reader(file_csv, delimiter=',')
+        count = 0
+        result = {"file.txt": {"count": 0, "last_time_opened": ""}}
+        for i in read:
+            if i[-1] == " OPEN":
+                result["file.txt"]["count"] += 1
+                result["file.txt"]["last_time_opened"] = i[0]
+    with open("logs.json", "w") as file_json:
+        dump(result, file_json, indent=7)
+
+
+count_json()
+with open("logs.json", "r") as fj:
+    print(load(fj))
+
+
+#{
+#   "file.txt": {
+#        "count": 0,
+#       "last_time_opened": ""
+#   }
+#}
+--
