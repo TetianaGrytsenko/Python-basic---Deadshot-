@@ -48,7 +48,7 @@ def cat(cat_dict: dict):
     def fluffy_wrap(func):
         def paw_wrap(paw_dict: dict):
             paw_key = paw_dict.keys()
-            for key, value in cat_dict:
+            for key, value in cat_dict.items():
                 if value.required:
                     try:
                         if value['type'] == type(paw_key[key]):
@@ -71,7 +71,7 @@ def cat(cat_dict: dict):
         def paw_wrap(*args, **kwargs):
             paw_dict = func(*args, **kwargs)
             paw_key = paw_dict.keys()
-            for key, value in cat_dict:
+            for key, value in cat_dict.items():
                 if value.required:
                     try:
                         if value['type'] == type(paw_key[key]):
