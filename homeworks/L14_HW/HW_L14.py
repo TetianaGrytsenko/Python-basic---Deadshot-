@@ -12,6 +12,8 @@
 # де VR-1234183 - серія/номер
 import logging
 import random
+from unittest import TestCase
+import self
 
 
 class LowBattery(BaseException):
@@ -61,16 +63,16 @@ class RobotVacuumCleaner:
 """
         if self.battery_charge < 5:
             raise LowBattery
+            print('LowBattery')
         else:
             self.battery_charge -= 2
+            print('Hahaha')
 
     def filling_wt(self, volume_waste_tank):
-
         additional_waste_volume = random.randint(0, 20)
         if self.filling_waste_tank == volume_waste_tank:
             raise FullWasteTank
-        elif self.filling_waste_tank != self.volume_waste_tank and \
-                self.filling_waste_tank + additional_waste_volume >= self.volume_waste_tank:
+        elif self.filling_waste_tank + additional_waste_volume >= self.volume_waste_tank:
             self.filling_waste_tank = self.volume_waste_tank
         else:
             self.filling_waste_tank += additional_waste_volume
@@ -78,13 +80,13 @@ class RobotVacuumCleaner:
     def wet_cleaning(self):
         if self.filling_water_tank == 0:
             raise EmptyWaterTank
-        elif self.filling_water_tank != 0:
+        elif self.filling_water_tank:
             self.filling_water_tank -= 20
             if self.filling_water_tank < 0:
                 self.filling_water_tank = 0
                 raise EmptyWaterTank
 
-    def start_cleaning(self, time: int, wet_cleaning):
+    def start_cleaning(self, time, wet_cleaning):
         logging.info(f"{self.info} STARTED CLEANING")
         for x in range(time):
             try:
@@ -110,10 +112,8 @@ class RobotVacuumCleaner:
 
 robot = RobotVacuumCleaner(50, 100, 80, 'Xiaomy 360')
 print(robot.info)
-print(robot.reducing_charge)
 print(robot.filling_wt(200))
 print(robot.wet_cleaning())
-
 # використовуючи бібліотеки unittest або pytest треба перевірити:
 # 1. повне прибирання на яке вистачає ресурсів
 # 2.прибирання без вологого прибирання на яке вистачає ресурсів
@@ -123,7 +123,6 @@ print(robot.wet_cleaning())
 # 5. прибирання під час якого не вистачило води (перевірити що start_cleaning повернула False і що бак з водою пустий)
 # 6. проперті info повертає правильне значення
 
-from unittest import TestCase
 
 
 class TestRobotVacuumCleaner(TestCase):
@@ -131,7 +130,8 @@ class TestRobotVacuumCleaner(TestCase):
     def setUp(self) -> None:
         self.test_cleaner = RobotVacuumCleaner(0, 100, 100, "test_series")
         print(self.test_cleaner.info)
-    def tearDown(self) -> None:
+
+    def test_tearDown(self) -> None:
         self.test_cleaner = None
 
     def test_full_cleaning(self):
