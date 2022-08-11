@@ -24,7 +24,7 @@ def number_words():
     parser = argparse.ArgumentParser('Number of words in your file')
     parser.add_argument(dest='filename', action='store', type=str)
     args = parser.parse_args()
-    print(len(args.filename.read()))
+    print(len(args.filename.split()))
 
 
 if __name__ == '__main__':
